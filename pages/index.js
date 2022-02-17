@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Box, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react'
+import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react'
 import { useState } from 'react';
 
 const Home = () => {
@@ -7,7 +7,7 @@ const Home = () => {
   const [defaultWorkTime, setDefaultBreakTime] = useState(25);
 
   return (
-    <Box userSelect="none" minH="100vh">
+    <Box userSelect="none" minH="100vh" bgColor="whitesmoke">
       <Head>
         <title>Tomato RPG</title>
         <meta name="description" content="Simple Pomodoro RPG" />
@@ -83,22 +83,10 @@ const createEnergy = (num, max = 4) => {
 
 }
 
-const CreateTimer = (defaultTime = 25) => {
+const CreateTimer = ({defaultTime = 25}) => {
   const [time, setTime] = useState(defaultTime);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const timeFormatted = (minutes) => {
-    let result = "";
-    if (minutes >= 10) {
-      result = minutes + ":00"
-    }
-    else {
-      result = "0" + minutes + ":00"
-    }
-
-    return result;
-  }
-
+  console.log(time)
   return (
     <>
       <Button borderRadius="50%" colorScheme="blue" h="48" w="48" margin=".5rem" onClick={onOpen}><Box h="24" w="24" bgImage="/timerClock.svg" alt="Timer Clock"></Box></Button>
@@ -108,10 +96,10 @@ const CreateTimer = (defaultTime = 25) => {
           <ModalHeader>Start New Timer</ModalHeader>
           <ModalCloseButton></ModalCloseButton>
           <ModalBody>
-            <Center><Flex align="center" justify="center"><Button></Button><Box h="16" w="16"><Image src="/tomato.svg" alt="tomato"></Image></Box><Button></Button></Flex></Center>
-            <Center><Flex align="center" justify="center"><Button></Button><Heading>75:00</Heading><Button></Button></Flex></Center>
+            <Center><Flex align="center" justify="center"><Button>◄</Button><Box h="16" w="16"><Image src="/tomato.svg" alt="tomato"></Image></Box><Button>►</Button></Flex></Center>
+            <Center><Flex align="center" justify="center"><Button>◄</Button><Heading>{time >= 10 ? time + ":00" : "0" + time + ":00"}</Heading><Button>►</Button></Flex></Center>
             
-            <Center><Button colorScheme="green" m="4"><Heading p="4">{timeFormatted(time)}</Heading></Button></Center>
+            <Center><Button colorScheme="green" m="4"><Heading size="lg" p="4">Start</Heading></Button></Center>
           </ModalBody>
 
           <ModalFooter>
