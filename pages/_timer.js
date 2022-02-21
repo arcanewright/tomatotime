@@ -1,10 +1,12 @@
 import Head from 'next/head'
-import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText } from '@chakra-ui/react'
+import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, scaleFadeConfig, ScaleFade } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
 import { focusNextTabbable } from '@chakra-ui/utils';
 
+import { InvBox } from './_inventory';
+import vegetables from "./vegetabledex.json"
 
-const Timer = ({lastTimer, moveTo, resolve}) => {
+const Timer = ({lastTimer = {time:25, type:"work"}, moveTo, resolve, vegRoot}) => {
 
 
     const [timeLeft, setTimeLeft] = useState(lastTimer.time * 60);
@@ -15,7 +17,23 @@ const Timer = ({lastTimer, moveTo, resolve}) => {
     const [colorScheme, setColorScheme] = useState(lastTimer.type =="break" ? "teal" : lastTimer.type=="work" ? "orange" : "grey")
     const [audioPlaying, setAudioPlaying] = useState(false);
     
-  
+    const determinePrize = () => {
+      let rarity = "";
+      const random = Math.random() * 1000;
+      if (random > 998) {
+        rarity = "legendary"
+      }
+      else if (random > 948) {
+        rarity = "rare"
+      }
+      else {
+        rarity = "common";
+      }
+
+      return vegRoot + ":" + rarity;
+    }
+
+    const prize = determinePrize();
   
     useEffect(() => {
       if (!paused && !timerEnd) {
@@ -58,7 +76,7 @@ const Timer = ({lastTimer, moveTo, resolve}) => {
           <Button colorScheme="yellow" h="24" aria-label='Pause' onClick={() => setPaused(!paused)}><Box bgImg={paused ? "/play.svg" : "pause.svg"} color="grey" h="16" w="16" filter="opacity(80%)"></Box></Button>
           <Spacer minH="5vh"></Spacer>
           <StopModal moveTo={moveTo} resolve={resolve} timerProps={lastTimer}></StopModal>
-          <EndModal finished={timerEnd} timerProps={lastTimer} resolve={resolve}></EndModal>
+          <EndModal finished={timerEnd} timerProps={lastTimer} resolve={resolve} prizeVegetable={prize}></EndModal>
         </Flex>
       </>
     )
@@ -88,14 +106,25 @@ const Timer = ({lastTimer, moveTo, resolve}) => {
   }
   
   
-  const EndModal = ({finished, resolve, timerProps}) => {
-    const [alarm, setAlarm] = useState(new Audio("beep-7-with-silence-x5.wav"));
-    const playAlarm = localStorage.getItem("s-play-alarm") == "true";
-    const loopAlarm = localStorage.getItem("s-loop-alarm") == "true";
+  const EndModal = ({finished, resolve, timerProps, prizeVegetable}) => {
+    const [alarm, setAlarm] = useState(null);
+    const [playAlarm, setPlayAlarm] = useState(false);
+    const [loopAlarm, setLoopAlarm] = useState(false);
     const [audioPlaying, setAudioPlaying] = useState(false);
     const [audioPlayed, setAudioPlayed] = useState(false);
     const [ack, setAck] = useState(false);
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [showPrize, setShowPrize] = useState(false);
+    const [transition, setTransition] = useState(false);
+    const [transTimeout, setTransTimeout] = useState(0);
+
+    useEffect(()=> {
+      setAlarm(new Audio("beep-7-with-silence-x5.wav"));
+      setPlayAlarm(localStorage.getItem("s-play-alarm") == "true");
+      setLoopAlarm(localStorage.getItem("s-loop-alarm") == "true");
+    }, [])
+
+
     useEffect(() => {
       if (finished && !isOpen) {
         onOpen();
@@ -116,7 +145,37 @@ const Timer = ({lastTimer, moveTo, resolve}) => {
         setAudioPlayed(true);
         alarm.pause();
       }
+      if (transition && !transTimeout) {
+        const timeout = setTimeout(() => setTransition(false), 100);
+        setTransTimeout(timeout);
+      }
+      if (!transition && transTimeout) {
+        clearTimeout(transTimeout);
+      }
     })
+
+
+    const prize = vegetables.find((e) => e.vegetable == prizeVegetable) || {vegetable:"error", label:"Error", image:"/tomato.svg", rarityLabel:"Common", filterExpression:"", worth:0};
+
+    const givePrize = (veg) => {
+      const inv = localStorage.getItem("inventory");
+      let inventory = [];
+      let result = [];
+      if (inv && inv != "undefined") {
+        inventory = JSON.parse(inv);
+      }
+
+      const index = inventory.findIndex((e)=> e.vegetable == veg);
+      
+      if (index == -1) {
+        result.concat(inventory);
+        result.push({...prize, quantity:1});
+      }
+      else {
+        result = inventory.map((e, i) => {if (i == index) {let temp = e; temp.quantity++; return temp;} else { return e}})
+      }
+      localStorage.setItem("inventory", JSON.stringify(result));
+    }
   
     return (
     <>
@@ -126,15 +185,32 @@ const Timer = ({lastTimer, moveTo, resolve}) => {
           <ModalHeader>Time Over!</ModalHeader>
           <ModalCloseButton onClick={() => {setAck(true); resolve(timerProps.type, "success"); onClose()}}></ModalCloseButton>
           <ModalBody>
-            <Center>
-              <Text>Want to count this timer?</Text>
-            </Center>
-            <Center>
-              <Button p="8" m="2" colorScheme="blue" onClick={() => {setAck(true); resolve(timerProps.type, "success"); onClose()}}><Text fontSize="2xl">Yes!</Text></Button>
-            </Center>
-            <Center>
-              <Button p="2" m="4" colorScheme="red" onClick={() => {setAck(true); resolve(timerProps.type, "failure"); onClose()}}>No</Button>
-            </Center>
+            <ScaleFade unmountOnExit initialScale=".9" in={!showPrize && !transition}>
+              <Center>
+                <Text>Want to count this timer?</Text>
+              </Center>
+              <Center>
+                <Button p="8" m="2" colorScheme="blue" onClick={() => {setAck(true); setShowPrize(true); givePrize(prizeVegetable);setTransition(true)}}><Text fontSize="2xl">Yes!</Text></Button>
+              </Center>
+              <Center>
+                <Button p="2" m="4" colorScheme="red" onClick={() => {setAck(true); resolve(timerProps.type, "failure"); onClose()}}>No</Button>
+              </Center>
+            </ScaleFade>
+            <ScaleFade unmountOnExit initialScale=".9" in={showPrize && !transition}>
+              <Flex direction="column">
+                <Center>
+                  <Text>You&apos;ve earned:</Text>
+                </Center>
+                <Center>
+                  <InvBox forsale={false} vegetable={prize.vegetable} label={prize.label} image={prize.image} rarityLabel={prize.rarityLabel} filterExp={prize.filterExpression} worth={prize.worth} quantity={1}></InvBox>
+                </Center>
+                <Center>
+                  <Button p="8" m="2" colorScheme="yellow" onClick={() => {resolve(timerProps.type, "success"); onClose()}}>Return to Menu</Button>
+                </Center>
+              </Flex>
+              
+            </ScaleFade>
+            
           </ModalBody>
         </ModalContent>
       </Modal>

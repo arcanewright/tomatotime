@@ -55,6 +55,27 @@ const Recipies = ({}) => {
   </>
   }
   
+  const timeString = (time = 0, hrs = false) => {
+    if (!hrs) {
+      const minutes = parseInt(time / 60);
+      const seconds = parseInt(time % 60);
+      const minutes0 = minutes >= 10 ? "" : "0";
+      const seconds0 = seconds >= 10 ? "" : "0"; 
+      return(minutes0 + minutes + ":" + seconds0 + seconds);
+    }
+    else {
+      const hours = parseInt(time / 3600);
+      const remainingTime = time % 3600;
+      const minutes = parseInt( remainingTime / 60);
+      const seconds = remainingTime % 60;
+      const hours0 = hours >= 10 ? "" : "0";
+      const minutes0 = minutes >= 10 ? "" : "0";
+      const seconds0 = seconds >= 10 ? "" : "0"; 
+      return (hours0 + hours + ":" + minutes0 + minutes + ":"  + seconds0 + seconds);
+    }
+    
+  }
+
   const Recipie = ({}) => {
   
     return (<>

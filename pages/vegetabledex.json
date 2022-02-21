@@ -1,0 +1,32 @@
+[
+    {
+        "vegetable":"tomato:common",
+        "root":"tomato",
+        "label":"Tomato",
+        "rarityLabel":"Common",
+        "rarity":"common",
+        "filterExpression":"",
+        "image":"/tomato.svg",
+        "worth":10
+    },
+    {
+        "vegetable":"tomato:rare",
+        "root":"tomato",
+        "label":"Tomato",
+        "rarityLabel":"Rare",
+        "rarity":"rare",
+        "filterExpression":"hue-rotate(90deg)",
+        "image":"/tomato.svg",
+        "worth":25
+    },
+    {
+        "vegetable":"tomato:legendary",
+        "root":"tomato",
+        "label":"Tomato",
+        "rarityLabel":"Legendary",
+        "rarity":"rare",
+        "filterExpression":"hue-rotate(180deg)",
+        "image":"/tomato.svg",
+        "worth":100
+    }
+]

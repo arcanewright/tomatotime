@@ -7,13 +7,23 @@ import { focusNextTabbable } from '@chakra-ui/utils';
 const Settings = () => {
 
     const [darkMode, setDarkMode] = useState();
-    const [playAlarm, setPlayAlarm] = useState(localStorage.getItem("s-play-alarm") == 'true');
-    const [loopAlarm, setLoopAlarm] = useState(localStorage.getItem("s-loop-alarm") == 'true');
-    const [defaultTime, setDefaultTime] = useState(parseInt(localStorage.getItem("s-default-time")) || 25);
-    const [continueOffline, setContinueOffline] = useState(localStorage.getItem("s-continue-offline") == 'true');
-    const [storeGameData, setStoreGameData] = useState(localStorage.getItem("s-store-game") == 'true');
-    const [storeStatistics, setStoreStatistics] = useState(localStorage.getItem("s-store-stats") == 'true');
+    const [playAlarm, setPlayAlarm] = useState(true);
+    const [loopAlarm, setLoopAlarm] = useState(false);
+    const [defaultTime, setDefaultTime] = useState(25);
+    const [continueOffline, setContinueOffline] = useState(true);
+    const [storeGameData, setStoreGameData] = useState(true);
+    const [storeStatistics, setStoreStatistics] = useState(true);
   
+    useEffect(() => {
+      setPlayAlarm(localStorage.getItem("s-play-alarm") == 'true');
+      setLoopAlarm(localStorage.getItem("s-loop-alarm") == 'true');
+      setDefaultTime(parseInt(localStorage.getItem("s-default-time")) || 25);
+      setContinueOffline(localStorage.getItem("s-continue-offline") == 'true');
+      setStoreGameData(localStorage.getItem("s-store-game") == 'true');
+      setStoreStatistics(localStorage.getItem("s-store-stats") == 'true');
+
+    }, [])
+
     const handleSetting = (setting, value) => {
       localStorage.setItem(setting, value);
       if (setting == "s-play-alarm") {

@@ -14,10 +14,11 @@ import Store from "./_store";
 import Statistics from "./_stats";
 import Settings from "./_settings";
 
+import vegetables from "./vegetabledex.json"
 
 const Home = () => {
   const [location, setLocation] = useState("menu");
-  const [lastTimer, setLastTimer] = useState({type:"work", time:25, image:"/timerClock.svg"})
+  const [lastTimer, setLastTimer] = useState({type:"work", time:25, image:"/timerClock.svg", vegetable:"error"})
   const [transition, setTransition] = useState(false);
   const [displayTopBar, setDisplayTopBar] = useState(true);
   const [locTimeout, setLocTimeout] = useState(0);
@@ -95,6 +96,7 @@ const Home = () => {
     }
   }
 
+
   return (
     <Box userSelect="none" minH="100vh" bgColor="whitesmoke">
       <Fade unmountOnExit in={displayTopBar}>
@@ -104,7 +106,7 @@ const Home = () => {
         <MainMenu firstVisit={firstVisit} energy={energy} money={money} moveTo={locationHandler} setLastTimer={setLastTimer}></MainMenu>
       </Fade>
       <Fade unmountOnExit in={location == "timer" && !transition}>
-        <Timer lastTimer={lastTimer} moveTo={locationHandler} resolve={resolveTimer}></Timer>
+        <Timer lastTimer={lastTimer} moveTo={locationHandler} resolve={resolveTimer} vegRoot={lastTimer.vegetable}></Timer>
       </Fade>
       <Fade unmountOnExit in={location == "inventory" && !transition}>
         <Inventory setMoney={updateMoney}></Inventory>

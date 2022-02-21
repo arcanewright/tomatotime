@@ -3,17 +3,17 @@ import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon
 import { useEffect, useState } from 'react';
 import { focusNextTabbable } from '@chakra-ui/utils';
 
-const MainMenu = ({moveTo, setLastTimer, energy, money, firstVisit}) => {
+const MainMenu = ({moveTo, setLastTimer, energy, money}) => {
 
-    const [defaultWorkTime, setDefaultBreakTime] = useState(.25);
-  
+    const [defaultWorkTime, setDefaultBreakTime] = useState(.0666666);
+    const [previousVisit, setPreviousVisit] = useState();
     const { isOpen, onOpen, onClose} = useDisclosure();
     const [tutorialOpened, setTutorialOpened] = useState(false);
     const [tutorialDone, setTutorialDone] = useState(false);
   
     useEffect(() => {
   
-      if (firstVisit && !tutorialOpened && !tutorialDone) {
+      if (previousVisit && !tutorialOpened && !tutorialDone) {
         onOpen();
         setTutorialOpened(true);
       }
@@ -43,13 +43,13 @@ const MainMenu = ({moveTo, setLastTimer, energy, money, firstVisit}) => {
           <Center>
             <Flex w="sm" justify="center" align="center">
               <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("inventory")}><Box h="12" w="12" bgImg="/basket.svg" alt="Basket - Inventory"></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("recipies")}><Box h="12" w="12" bgImg="/blueBook.svg" alt="Blue Book - Recipies" ></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("store")}><Box h="12" w="12" bgImg="/shoppingCart.svg" alt="Shopping Cart - Store" ></Box></Button>
+              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("recipies")}><Box h="12" w="12" bgImg="/blueBook.svg" alt="Blue Book - Recipies" ></Box></Button>
+              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("store")}><Box h="12" w="12" bgImg="/shoppingCart.svg" alt="Shopping Cart - Store" ></Box></Button>
             </Flex>
           </Center>
           <Center>
             <Flex w="sm" justify="center" align="center">
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("statistics")}><Box h="12" w="12" bgImg="/trendLineChart.svg" alt="Chart - Statistics"  ></Box></Button>
+              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("statistics")}><Box h="12" w="12" bgImg="/trendLineChart.svg" alt="Chart - Statistics"  ></Box></Button>
               <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("information")}><Box h="12" w="12" bgImg="/information.svg" alt="Infromation Icon - Information" ></Box></Button>
               <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("settings")}><Box h="12" w="12" bgImg="/gear.svg" alt="Gear - Settings" ></Box></Button>
             </Flex>
@@ -62,9 +62,10 @@ const MainMenu = ({moveTo, setLastTimer, energy, money, firstVisit}) => {
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay></ModalOverlay>
           <ModalContent>
-            <ModalHeader>Welcome to <Heading bgGradient="linear(to-b, orange.400, red.400)" bgClip="text" size="md" p="2">Tomato RPG</Heading></ModalHeader>
+            <ModalHeader>Welcome to <Heading bgGradient="linear(to-b, orange.400, red.400)" bgClip="text" size="lg" p="1">Tomato RPG</Heading></ModalHeader>
             <ModalCloseButton></ModalCloseButton>
             <ModalBody>
+              <Text>Start a timer, earn vegetables, sell them for more vegetables. Also track your stats.</Text>
             </ModalBody>
   
             <ModalFooter>
@@ -96,7 +97,7 @@ const CreateTimer = ({defaultTime = 3, moveTo, setLastTimer}) => {
     }
     return (
       <>
-        <Button borderRadius="50%" colorScheme="blue" h="48" w="48" margin=".5rem" onClick={onOpen}><Box h="24" w="24" bgImage="/timerClock.svg" alt="Timer Clock"></Box></Button>
+        <Button borderRadius="50%" colorScheme="blue" h="48" w="48" margin="1" onClick={onOpen}><Box h="24" w="24" bgImage="/timerClock.svg" alt="Timer Clock"></Box></Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay></ModalOverlay>
           <ModalContent>
@@ -124,7 +125,7 @@ const CreateTimer = ({defaultTime = 3, moveTo, setLastTimer}) => {
   
     return (
       <>
-        <Button borderRadius="50%" colorScheme="teal" h="32" w="32" margin=".5rem" onClick={onOpen}><Box h="16" w="16" bgImage="/hotBeverage.svg" alt="Hot Beverage" ></Box></Button>
+        <Button borderRadius="50%" colorScheme="teal" h="32" w="32" margin="1" onClick={onOpen}><Box h="16" w="16" bgImage="/hotBeverage.svg" alt="Hot Beverage" ></Box></Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay></ModalOverlay>
           <ModalContent>
