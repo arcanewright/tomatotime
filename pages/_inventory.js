@@ -10,7 +10,7 @@ const Inventory = ({money, setMoney}) => {
   const [inventory, setInventory] = useState([]);
 
   useEffect( () => {
-    setInventory(localStorage.getItem("inventory") != "undefined" ? JSON.parse(localStorage.getItem("inventory")) : [])
+    setInventory(localStorage.getItem("inventory") ? localStorage.getItem("inventory") != "undefined" ? JSON.parse(localStorage.getItem("inventory")) : [] : []);
   }, [])
 
   const sellHandler = (idx, veg) => {

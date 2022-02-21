@@ -5,7 +5,7 @@ import { focusNextTabbable } from '@chakra-ui/utils';
 
 const MainMenu = ({moveTo, setLastTimer, energy, money}) => {
 
-    const [defaultWorkTime, setDefaultBreakTime] = useState(.0666666);
+    const [defaultWorkTime, setDefaultBreakTime] = useState(25);
     const [previousVisit, setPreviousVisit] = useState();
     const { isOpen, onOpen, onClose} = useDisclosure();
     const [tutorialOpened, setTutorialOpened] = useState(false);
@@ -77,7 +77,7 @@ const MainMenu = ({moveTo, setLastTimer, energy, money}) => {
     )
   }
 
-const CreateTimer = ({defaultTime = 3, moveTo, setLastTimer}) => {
+const CreateTimer = ({defaultTime = 25, moveTo, setLastTimer}) => {
     const [time, setTime] = useState(defaultTime);
     const [vegetable, setVegetable] = useState("tomato");
     const { isOpen, onOpen, onClose } = useDisclosure();
