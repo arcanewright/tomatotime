@@ -4,16 +4,14 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
   const [location, setLocation] = useState("menu");
-  const [lastTimer, setLastTimer] = useState({type:"work", time:"25", image:"/timerClock.svg"})
+  const [lastTimer, setLastTimer] = useState({type:"work", time:3, image:"/timerClock.svg"})
   const [transition, setTransition] = useState(false);
   const [displayTopBar, setDisplayTopBar] = useState(true);
   const [locTimeout, setLocTimeout] = useState(0);
-  const [settings, setSettings] = useState({alarmSound:true, darkMode:false, defaultTime:25, continueCountdownWhileClosed:false, dontStoreGameData:false})
+  const [settings, setSettings] = useState({alarmSound:true, darkMode:false, defaultTime:3, continueCountdownWhileClosed:false, dontStoreGameData:false})
   const [firstVisit, setFirstVisit] = useState(false);
   const [energy, setEnergy] = useState(3);
   const [money, setMoney] = useState(50);
-  const [inventory, setInventory] = useState({});
-  const [store, setStore] = useState({});
 
   //traverse the menus
   const locationHandler = (location) => {
@@ -118,7 +116,9 @@ const Inventory = ({money, energy}) => {
       <meta name="description" content="Simple Pomodoro RPG"/>
       <link rel="icon" href="basket.svg"/>
     </Head>
-    <Flex></Flex>
+    <Flex>
+      Inventory
+    </Flex>
   </>
 }
 
@@ -158,7 +158,7 @@ const Timer = ({lastTimer, moveTo, settings, resolve}) => {
       alarm.play();
     }
 
-    if (timerEndAck && audioPlaying && settings.alarmSound) {
+    if (timerEndAck && audioPlaying) {
       setAudioPlaying(false);
       alarm.pause();
     }
@@ -227,7 +227,7 @@ const EndModal = ({finished, acknowledge, resolve, timerProps}) => {
 
   return (
   <>
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} onClick={acknowledge}>
       <ModalOverlay></ModalOverlay>
       <ModalContent>
         <ModalHeader>Time Over!</ModalHeader>
@@ -270,7 +270,7 @@ const TopBar = ({energy, money, dispReturnToMenu, moveTo}) => {
 
 const MainMenu = ({moveTo, setLastTimer, energy, money, firstVisit}) => {
 
-  const [defaultWorkTime, setDefaultBreakTime] = useState(25);
+  const [defaultWorkTime, setDefaultBreakTime] = useState(.25);
 
   const { isOpen, onOpen, onClose} = useDisclosure();
   const [tutorialOpened, setTutorialOpened] = useState(false);
@@ -366,7 +366,7 @@ const createEnergy = (num, max = 3) => {
 
 }
 
-const CreateTimer = ({defaultTime = 25, moveTo, setLastTimer}) => {
+const CreateTimer = ({defaultTime = 3, moveTo, setLastTimer}) => {
   const [time, setTime] = useState(defaultTime);
   const [vegetable, setVegetable] = useState("tomato");
   const { isOpen, onOpen, onClose } = useDisclosure();
