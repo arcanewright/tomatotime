@@ -133,8 +133,8 @@ const Timer = ({lastTimer, moveTo, settings, resolve}) => {
   const [timerEndAck, setTimerEndAck] = useState(false);
   const [colorScheme, setColorScheme] = useState(lastTimer.type =="break" ? "teal" : lastTimer.type=="work" ? "orange" : "grey")
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [alarm, setAlarm] = useState(new Audio("mixkit-old-telephone-ring-1357.wav"))
 
-  const alarm = new Audio("mixkit-old-telephone-ring-1357.wav");
 
   useEffect(() => {
     if (!paused && !timerEnd) {
