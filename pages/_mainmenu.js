@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText } from '@chakra-ui/react'
+import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
 import { focusNextTabbable } from '@chakra-ui/utils';
 
@@ -42,16 +42,28 @@ const MainMenu = ({moveTo, setLastTimer, energy, money}) => {
           </Center>
           <Center>
             <Flex w="sm" justify="center" align="center">
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("inventory")}><Box h="12" w="12" bgImg="/basket.svg" alt="Basket - Inventory"></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("recipies")}><Box h="12" w="12" bgImg="/blueBook.svg" alt="Blue Book - Recipies" ></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("store")}><Box h="12" w="12" bgImg="/shoppingCart.svg" alt="Shopping Cart - Store" ></Box></Button>
+              <Tooltip label="Inventory">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("inventory")}><Box h="12" w="12" bgImg="/basket.svg" alt="Basket - Inventory"></Box></Button>
+              </Tooltip>
+              <Tooltip label="Recipies (Not yet implemented)">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("recipies")}><Box h="12" w="12" bgImg="/blueBook.svg" alt="Blue Book - Recipies" ></Box></Button>
+              </Tooltip>
+              <Tooltip label="Store (Not yet implemented)">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("store")}><Box h="12" w="12" bgImg="/shoppingCart.svg" alt="Shopping Cart - Store" ></Box></Button>
+              </Tooltip>
             </Flex>
           </Center>
           <Center>
             <Flex w="sm" justify="center" align="center">
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("statistics")}><Box h="12" w="12" bgImg="/trendLineChart.svg" alt="Chart - Statistics"  ></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("information")}><Box h="12" w="12" bgImg="/information.svg" alt="Infromation Icon - Information" ></Box></Button>
-              <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("settings")}><Box h="12" w="12" bgImg="/gear.svg" alt="Gear - Settings" ></Box></Button>
+              <Tooltip label="Statistics (Not yet implemented)">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" isDisabled onClick={() => moveTo("statistics")}><Box h="12" w="12" bgImg="/trendLineChart.svg" alt="Chart - Statistics"  ></Box></Button>
+              </Tooltip>
+              <Tooltip label="Information">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("information")}><Box h="12" w="12" bgImg="/information.svg" alt="Infromation Icon - Information" ></Box></Button>
+              </Tooltip>
+              <Tooltip label="Settings">
+                <Button colorScheme="yellow" h="20" w="24" margin=".5rem" onClick={() => moveTo("settings")}><Box h="12" w="12" bgImg="/gear.svg" alt="Gear - Settings" ></Box></Button>
+              </Tooltip>
             </Flex>
           </Center>
           <Center flexDir="column">
@@ -97,17 +109,19 @@ const CreateTimer = ({defaultTime = 25, moveTo, setLastTimer}) => {
     }
     return (
       <>
-        <Button borderRadius="50%" colorScheme="blue" h="48" w="48" margin="1" onClick={onOpen}><Box h="24" w="24" bgImage="/timerClock.svg" alt="Timer Clock"></Box></Button>
+        <Tooltip label="Start Timer">
+          <Button borderRadius="50%" colorScheme="blue" h="48" w="48" margin="1" onClick={onOpen}><Box h="24" w="24" bgImage="/timerClock.svg" alt="Timer Clock"></Box></Button>
+        </Tooltip>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay></ModalOverlay>
           <ModalContent>
             <ModalHeader>Start New Timer</ModalHeader>
             <ModalCloseButton></ModalCloseButton>
             <ModalBody>
-              <Center><Flex align="center" justify="center"><Button>◄</Button><Box p="2" h="16" w="16"><Image src={getVegImg(vegetable)} alt="tomato"></Image></Box><Button>►</Button></Flex></Center>
-              <Center><Text size="xl">{vegetable[0].toUpperCase() + vegetable.slice(1)}</Text></Center>
-              <Center><Flex align="center" justify="center"><Button isDisabled={time < 10} onClick={() => moveTime(-5)}>◄</Button><Heading p="2">{time >= 10 ? time + ":00" : "0" + time + ":00"}</Heading><Button onClick={() => moveTime(5)} isDisabled={time > 85}>►</Button></Flex></Center>
-              
+              <Center><Flex align="center" justify="center"><Button>◄</Button><Tooltip label={vegetable[0].toUpperCase() + vegetable.slice(1)}><Box m="2" h="16" w="16" bgImg={getVegImg(vegetable)}></Box></Tooltip><Button>►</Button></Flex></Center>
+              <Spacer h="6"></Spacer>
+              <Center><Flex align="center" justify="center"><Button isDisabled={time < 10} onClick={() => moveTime(-5)}>◄</Button><Heading p="2" userSelect="none">{time >= 10 ? time + ":00" : "0" + time + ":00"}</Heading><Button onClick={() => moveTime(5)} isDisabled={time > 85}>►</Button></Flex></Center>
+              <Spacer h="6"></Spacer>
               <Center><Button colorScheme="blue" m="4" onClick={() => {setLastTimer({type:"work", time:time, vegetable:vegetable ,image:getVegImg(vegetable)}); moveTo("timer")}}><Heading size="lg" p="4">Start</Heading></Button></Center>
             </ModalBody>
   
@@ -125,7 +139,9 @@ const CreateTimer = ({defaultTime = 25, moveTo, setLastTimer}) => {
   
     return (
       <>
-        <Button borderRadius="50%" colorScheme="teal" h="32" w="32" margin="1" onClick={onOpen}><Box h="16" w="16" bgImage="/hotBeverage.svg" alt="Hot Beverage" ></Box></Button>
+        <Tooltip label="Start Break">
+          <Button borderRadius="50%" colorScheme="teal" h="32" w="32" margin="1" onClick={onOpen}><Box h="16" w="16" bgImage="/hotBeverage.svg" alt="Hot Beverage" ></Box></Button>
+        </Tooltip>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay></ModalOverlay>
           <ModalContent>

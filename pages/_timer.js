@@ -120,8 +120,8 @@ const Timer = ({lastTimer = {time:25, type:"work"}, moveTo, resolve, vegRoot}) =
 
     useEffect(()=> {
       setAlarm(new Audio("beep-7-with-silence-x5.wav"));
-      setPlayAlarm(localStorage.getItem("s-play-alarm") == "true");
-      setLoopAlarm(localStorage.getItem("s-loop-alarm") == "true");
+      setPlayAlarm(localStorage.getItem("s-play-alarm") ? localStorage.getItem("s-play-alarm") == "true" : true);
+      setLoopAlarm(localStorage.getItem("s-loop-alarm") ? localStorage.getItem("s-loop-alarm") == "true" : false);
     }, [])
 
 

@@ -71,7 +71,7 @@ const InvBox = ({selected, vegetable, index, label, rarityLabel, filterExp, wort
   const rarityBg = rarityLabel == "Common" ? "darkred": rarityLabel == "Rare" ? "gray" : rarityLabel == "Legendary" ? "blue" : "whitesmoke";
 
 
-  return (<Flex w="48" p="2"a m="2" bgColor={selected ? 'orange.500' : 'orange.300'} borderRadius="5px" direction="column" justify="center" align="center">
+  return (<Flex w="48" p="2" m="2" bgColor={selected ? 'orange.500' : 'orange.300'} borderRadius="5px" direction="column" justify="center" align="center">
     <Flex w="100%" justify="space-between" align="baseline"><Text fontSize="md">{label}</Text><Text pl="1" pr="1" color={rarityColor} bg={rarityBg} borderRadius="2" fontSize="xs">{rarityLabel}</Text></Flex>
     <Box h="32" w="32" bgImg={image} alt={label} filter={filterExp}></Box>
     <Flex w="100%" justify="space-between" align="center"><Text fontSize="lg" pl="1" pr="1" bg="red.500" borderRadius="4">{quantity}</Text>{forsale ? <Button h="8" colorScheme="yellow" align="center" pl="1" pr="1" borderRadius="5" onClick={() => sell(index, vegetable)}><Box h="6" w="6" bgImg="/coin.svg" alt="Coin"></Box><Text fontSize="lg">{worth}</Text></Button> : <></>}</Flex>

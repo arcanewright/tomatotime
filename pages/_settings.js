@@ -47,10 +47,12 @@ const Settings = () => {
     }
   
     const eraseGameData = () => {
-  
+      localStorage.removeItem("inventory");
+      localStorage.removeItem("money");
+      localStorage.removeItem("energy")
     }
     const eraseStatistics = () => {
-  
+      localStorage.removeItem("stats")
     }
   
     return (<>

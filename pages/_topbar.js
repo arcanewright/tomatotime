@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText } from '@chakra-ui/react'
+import { Box, Text, Button, Center, Flex, Heading, IconButton, Image, createIcon, Icon, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, CircularProgress, CircularProgressLabel, Spacer, useTimeout, Fade, useInterval, Switch, FormControl, FormLabel, useColorMode, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
 import { focusNextTabbable } from '@chakra-ui/utils';
 
@@ -7,8 +7,8 @@ import { focusNextTabbable } from '@chakra-ui/utils';
 const TopBar = ({energy, money, dispReturnToMenu, moveTo}) => {
 
     return (<>
-    <Box h="16" w="100vw" minW="100vw"></Box>
-    <Box bgGradient="linear(to-r, orange.600, red.600)" minW="100vw" position="absolute" top="0" left="0">
+    <Box h="16"></Box>
+    <Box bgGradient="linear(to-r, orange.600, red.600)" w="100%" position="absolute" top="0" left="0">
       <Center flexDir="column">
         <Flex color="whitesmoke" w="xs" align="center">
           <Flex align="center">
@@ -17,7 +17,9 @@ const TopBar = ({energy, money, dispReturnToMenu, moveTo}) => {
           </Flex>
           <Spacer align="right"></Spacer>
           {createEnergy(energy)}
-          <Button colorScheme='yellow' p="1" m="2" mr="0" onClick={() => moveTo("menu")} isDisabled={!dispReturnToMenu}><Box h="6" w="6" bgImg="/houseButton.svg" alt="Main Menu"></Box></Button>
+          <Tooltip label="Main Menu">
+            <Button colorScheme='yellow' p="1" m="2" mr="0" onClick={() => moveTo("menu")} isDisabled={!dispReturnToMenu}><Box h="6" w="6" bgImg="/houseButton.svg" alt="Main Menu"></Box></Button>
+          </Tooltip>
         </Flex>
       </Center>
     </Box>
