@@ -52,7 +52,6 @@ const Timer = ({lastTimer = {time:25, type:"work"}, moveTo, resolve, vegRoot}) =
         setTimerEnd(true);
       }
 
-      return () => clearInterval(intervalStamp);
   
     }, [paused, timerEnd, intervalStamp, timeLeft])
   
