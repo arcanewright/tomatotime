@@ -20,10 +20,10 @@ const Timer = ({lastTimer = {time:25, type:"work"}, moveTo, resolve, vegRoot}) =
     const determinePrize = () => {
       let rarity = "";
       const random = Math.random() * 1000;
-      if (random > 998) {
+      if (random > 990) {
         rarity = "legendary"
       }
-      else if (random > 948) {
+      else if (random > 940) {
         rarity = "rare"
       }
       else {

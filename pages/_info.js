@@ -34,6 +34,8 @@ const Information = ({}) => {
           <Link href="https://github.com/arcanewright/tomatotime"  mb="2">
             <Button colorScheme="purple">Github</Button>
           </Link>
+          <Heading size="md"  mb="2" >Tech Used</Heading>
+          <Text  mb="2">React, Next.JS, Chakra UI, Google Noto Sans Emoji, Google Fonts</Text>
           <Heading size="md"  mb="2">Data</Heading>
           <Text  mb="2">All data is stored locally on the machine. If you clear your browsing data, you will lose all progress in this app.</Text>
           <Heading size="md"  mb="2" >About Me</Heading>
